@@ -63,7 +63,7 @@ function App() {
 
   return (
     <>
-      {/* <PokeList pokemon={pokemon} pokeURL={pokeURL} /> */}
+      <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
       <PokemonCard pokemon={pokemon} pokeURL={pokeURL} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>
