@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "../node_modules/axios";
+import axios from "axios";
 import PokeList from "./components/PokeList";
 import Pagination from "./components/Pagination";
 import PokemonCard from "./components/PokemonCard"
@@ -12,24 +12,38 @@ function App() {
   const [nextPageURL, setNextPageURL] = useState();
   const [prevPageURL, setPrevPageURL] = useState();
   const [loading, setLoading] = useState(true);
-  const [url, setURL] = useState();
   
 
   useEffect(() => {
     setLoading(true);
     let cancel;
     axios
-      .get(currentPageURL
-      )
+      .get(currentPageURL, {
+        cancelToken: new axios.CancelToken((c) => (cancel = c)),
+      })
       .then((res) => {
         setLoading(false);
         setNextPageURL(res.data.next);
         setPrevPageURL(res.data.previous);
-        setPokemon(res.data.results.map((p) => p.name));
-        setURL(res.data.results.map(u=>u.url));
+        const pkPromise = res.data.results.map(p=>axios.get(p.url));
+        Promise.all(pkPromise).then((pokemonData)=>{
+          const pkDetails = pokemonData.map(p=>p.data);
+          setPokemon(pkDetails);
+        })
+        .catch((err)=>{
+          console.log('Error fetching details: ', err)
         });
-        
-        
+        })
+        .catch((err)=>{
+          if (axios.isCancel(err)) {
+          console.log('Request canceled: ', err.message)
+           } else {
+          console.log('Error fetching list: ', err)
+           }
+        });
+        return ()=>{
+          cancel();
+        };
       }, [currentPageURL]);
 
 
@@ -49,7 +63,8 @@ function App() {
 
   return (
     <>
-      <PokeList pokemon={pokemon} pokeURL={pokeURL} />
+      {/* <PokeList pokemon={pokemon} pokeURL={pokeURL} /> */}
+      <PokemonCard pokemon={pokemon} pokeURL={pokeURL} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>
   );
