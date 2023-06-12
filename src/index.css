@@ -1,5 +1,8 @@
 * {
   font-family: monospace;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 #root {
@@ -23,15 +26,17 @@ body {
 }
 
 .pokemon-card {
-  text-align: center;
   height: 150px;
   width: 125px;
   background-color: #aaa;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  border: 5px solid yellow;
+  border-radius: 5px;
+  padding: 0;
 }
 
 button {
