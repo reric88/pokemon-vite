@@ -10,8 +10,16 @@ export default function PokemonCard({ pokemon, pokeURL }) {
   };
 
   const getTypeIcon = (icon) => {
-    return '../../public/pokeicons/' + icon +'.png'
+    return icon +'.png'
   }
+
+  const getSecondTypeIcon = (types) => {
+    if (types && types.length >=2){
+      return <img width='16' height='16' src={getTypeIcon(getSecondType(types))} />
+    }
+    return '';
+  }
+// #region Get Card Color
 
   const getCardColor = (type) => {
     if (type === 'bug') {
@@ -72,17 +80,20 @@ export default function PokemonCard({ pokemon, pokeURL }) {
    }
   }
 
+  // #endregion
+
   return (<>
           {pokemon.map(p=>
           (
             <div className='pokemon-card' style={{backgroundColor: getCardColor(p.types[0].type.name)}}  key={p.name}>
+            <div className='name-and-type'>
               <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
-              {/* <h4 className='pokemon-type'>{p.types[0].type.name.toUpperCase().slice(0,1) + p.types[0].type.name.slice(1) + getSecondType(p.types).toUpperCase().slice(0, 2) + getSecondType(p.types).slice(2)}</h4> */}
-              <div className='pokemon-types'>
+              <div className='pokemon-type'>
               <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
-              <img width='16' height='16' src={getTypeIcon(getSecondType(p.types))} />
+              {getSecondTypeIcon(p.types)}
               </div>
-              <img src={p.sprites.front_default} />
+              </div>
+              <img className='pokemon-pic' src={p.sprites.front_default} />
             </div>
           )
           )}
