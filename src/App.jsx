@@ -3,15 +3,17 @@ import axios from "axios";
 import PokeList from "./components/PokeList";
 import Pagination from "./components/Pagination";
 import PokemonCard from "./components/PokemonCard"
+import Search from './components/Search'
 
 function App() {
   const pokeURL = "https://pokeapi.co/api/v2/pokemon";
-
+  const pokemonCount = 1010
   const [pokemon, setPokemon] = useState([]);
   const [currentPageURL, setCurrentPageURL] = useState(pokeURL);
   const [nextPageURL, setNextPageURL] = useState();
   const [prevPageURL, setPrevPageURL] = useState();
   const [loading, setLoading] = useState(true);
+  const [pokemonNames, setPokemonNames] = useState();
   
 
   useEffect(() => {
@@ -41,6 +43,14 @@ function App() {
           console.log('Error fetching list: ', err)
            }
         });
+
+
+
+
+
+
+
+
         return ()=>{
           cancel();
         };
@@ -59,12 +69,51 @@ function App() {
     }
   }
 
+
+
+
+
+
+
+  const pID = () => {
+    const urls = [];
+    for (let i = 1; i <= pokemonCount; i++) {
+      let url = 'https://pokeapi.co/api/v2/pokemon/' + i;
+      urls.push(url);
+    }
+    return urls;
+  };
+  
+  const pokemonList = () => {
+    const pokeUrls = pID();
+    Promise.all(pokeUrls.map(url => axios.get(url)))
+      .then(responses => {
+        const pokeNames = responses.map(response => response.data.name);
+        setPokemonNames(pokeNames)
+      })
+      .catch(error => {
+        console.log('Error fetching data:', error);
+      });
+  };
+  
+  // pokemonList();
+
+
+
+
+
+
+  
+
+
+
+
   if (loading) return "Loading...";
 
   return (
     <>
-    {console.log(pokemon)}
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
+      <Search pokemon={pokemon} pokemonNames={pokemonNames} />
       <PokemonCard pokemon={pokemon} pokeURL={pokeURL} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>

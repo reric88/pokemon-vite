@@ -11,7 +11,7 @@ export default function PokemonCard({ pokemon, pokeURL }) {
 
   const getSecondType = (types) => {
     if (types && types.length >=2){
-      return '/' + types[1].type.name;
+      return '/pokemon-vite/' + types[1].type.name;
     }
     return '';
   };
@@ -23,6 +23,15 @@ export default function PokemonCard({ pokemon, pokeURL }) {
   const getSecondTypeIcon = (types) => {
     if (types && types.length >=2){
       return <img width='16' height='16' src={getTypeIcon(getSecondType(types))} />
+    }
+    return '';
+  }
+
+  const newGetSecondTypeIcon = (types) => {
+    if (types && types.length >=2){
+      let secondType = getSecondType(types)
+      let secondIcon = getTypeIcon(secondType)
+      return <img width='16' height='16' src={secondIcon} />
     }
     return '';
   }
@@ -89,6 +98,8 @@ export default function PokemonCard({ pokemon, pokeURL }) {
 
   // #endregion
 
+
+  
   return (<>
           {pokemon.map(p=>
           (
@@ -97,7 +108,7 @@ export default function PokemonCard({ pokemon, pokeURL }) {
               <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
               <div className='pokemon-type'>
               <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
-              {getSecondTypeIcon(p.types)}
+              {newGetSecondTypeIcon(p.types)}
               </div>
               </div>
               <img className='pokemon-pic' src={p.sprites.front_default} style={{backgroundImage: 'url('+ p.types[0].type.name +'bg.png)'}}/>
