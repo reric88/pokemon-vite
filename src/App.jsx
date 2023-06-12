@@ -63,6 +63,7 @@ function App() {
 
   return (
     <>
+    {console.log(pokemon)}
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
       <PokemonCard pokemon={pokemon} pokeURL={pokeURL} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>

@@ -21,7 +21,8 @@ a {
 
 body {
   background-color: #111;
-  color: white;
+  color: #fff;
+  text-shadow: 0 0 2px black;
 
 }
 
@@ -65,10 +66,33 @@ body {
 }
 
 .pokemon-pic {
-  background-color: #fff;
   width: 100px;
   height: 60px;
+  background-size: cover;
+  border: 2px solid #fff8;
+  margin-top: 0;
+  margin-bottom: auto;
   object-fit: contain;
+}
+
+.front-info {
+  background-color: #fff5;
+  width: 100px;
+  height: 50px;
+}
+
+.pokemon-abilities {
+  width: 100%;
+  text-align: center;
+}
+
+.pokemon-abilities h5:first-of-type {
+  margin-top: 5px;
+}
+
+label {
+  /* text-decoration: underline; */
+  border-bottom: 1px solid white;
 }
 
 button {

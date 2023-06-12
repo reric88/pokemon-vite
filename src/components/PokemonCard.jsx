@@ -2,6 +2,13 @@ import React, { useEffect } from 'react'
 
 export default function PokemonCard({ pokemon, pokeURL }) {
 
+  const getSecondAbility = (abilities) => {
+    if (abilities && abilities.length >= 2){
+      return abilities[1].ability.name
+    }
+    return  '';
+  }
+
   const getSecondType = (types) => {
     if (types && types.length >=2){
       return '/' + types[1].type.name;
@@ -93,7 +100,14 @@ export default function PokemonCard({ pokemon, pokeURL }) {
               {getSecondTypeIcon(p.types)}
               </div>
               </div>
-              <img className='pokemon-pic' src={p.sprites.front_default} />
+              <img className='pokemon-pic' src={p.sprites.front_default} style={{backgroundImage: 'url('+ p.types[0].type.name +'bg.png)'}}/>
+              <div className='front-info'>
+                <div className='pokemon-abilities'>
+              <label>Abilities</label>
+                <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
+                <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
+                </div>
+              </div>
             </div>
           )
           )}
