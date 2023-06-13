@@ -98,10 +98,32 @@ export default function PokemonCard({ pokemon, pokeURL }) {
 
   // #endregion
 
+const pokeCard = 
+  (pokemon.map(p=>
+    (
+      <div className='pokemon-card' style={{backgroundColor: getCardColor(p.types[0].type.name)}}  key={p.name}>
+      <div className='name-and-type'>
+        <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
+        <div className='pokemon-type'>
+        <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
+        {newGetSecondTypeIcon(p.types)}
+        </div>
+        </div>
+        <img className='pokemon-pic' src={p.sprites.front_default} style={{backgroundImage: 'url('+ p.types[0].type.name +'bg.png)'}}/>
+        <div className='front-info'>
+          <div className='pokemon-abilities'>
+        <label>Abilities</label>
+          <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
+          <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
+          </div>
+        </div>
+      </div>
+    )
+    ))
 
   
   return (<>
-          {pokemon.map(p=>
+          {/* {pokemon.map(p=>
           (
             <div className='pokemon-card' style={{backgroundColor: getCardColor(p.types[0].type.name)}}  key={p.name}>
             <div className='name-and-type'>
@@ -121,7 +143,9 @@ export default function PokemonCard({ pokemon, pokeURL }) {
               </div>
             </div>
           )
-          )}
+          )} */}
+          {console.log(pokeCard.map(a=>a.key))}
+          {pokeCard}
         </>
   )
 }

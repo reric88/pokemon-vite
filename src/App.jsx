@@ -14,6 +14,7 @@ function App() {
   const [prevPageURL, setPrevPageURL] = useState();
   const [loading, setLoading] = useState(true);
   const [pokemonNames, setPokemonNames] = useState();
+  const [query, setQuery] = useState('')
   
 
   useEffect(() => {
@@ -106,14 +107,12 @@ function App() {
   
 
 
-
-
   if (loading) return "Loading...";
 
   return (
     <>
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
-      <Search pokemon={pokemon} pokemonNames={pokemonNames} />
+      <Search pokemon={pokemon} pokemonNames={pokemonNames} setQuery={setQuery} query={query} />
       <PokemonCard pokemon={pokemon} pokeURL={pokeURL} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>
