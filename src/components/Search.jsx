@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Search({ setQuery }) {
+export default function Search({ setQuery}) {
 
   return (<>
   <div className='search-container'>

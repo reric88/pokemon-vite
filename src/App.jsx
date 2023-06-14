@@ -926,16 +926,16 @@ function App() {
   const [query, setQuery] = useState('')
   const [cardQuery, setCardQuery] = useState([]);
   
-  // if (allPokemon.length <= 1280){
-  // axios.get('https://pokeapi.co/api/v2/pokemon/?limit=1300').then((res)=>{
-  //     setAllPokemon(res.data.results)
-  //     const allPkPromise = res.data.results.map(p=>axios.get(p.url));
-  //     Promise.all(allPkPromise).then((res)=>{
-  //       const allPkDetails = res.map(p=>p.data);
-  //       setAllPokemonDetails(allPkDetails)
-  //     })
-  //   }
-  // )}
+  if (allPokemon.length <= 1280){
+  axios.get('https://pokeapi.co/api/v2/pokemon/?limit=1300').then((res)=>{
+      setAllPokemon(res.data.results)
+      const allPkPromise = res.data.results.map(p=>axios.get(p.url));
+      Promise.all(allPkPromise).then((res)=>{
+        const allPkDetails = res.map(p=>p.data);
+        setAllPokemonDetails(allPkDetails)
+      })
+    }
+  )}
   // console.log(allPokemonDetails)
 
 
@@ -1061,15 +1061,14 @@ const search = (data) => {
 
 
 
-
-
+console.log(cardQuery)
   return (
     <>
       {/* {console.log(pokemon[0])} */}
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
-      <Search pokemon={pokemon} setQuery={setQuery} query={query} getAbilities={getAbilities} />
-      <Table pokemonArray={pokemonArray} pokemon={pokemon} data={search(pokemon)} getAbilities={getAbilities} />
-      <PokemonCard pokemon={pokemon} pokeURL={pokeURL} getAbilities={getAbilities} cardQuery={cardQuery} />
+      <Search pokemon={pokemon} setQuery={setQuery} setCardQuery={setCardQuery} query={query} getAbilities={getAbilities} />
+      <Table pokemonArray={pokemonArray} pokemon={pokemon} data={search(allPokemonDetails)} getAbilities={getAbilities} query={query} />
+      <PokemonCard pokemon={pokemon} pokeURL={pokeURL} getAbilities={getAbilities} query={query} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>
   );

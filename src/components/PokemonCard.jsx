@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-export default function PokemonCard({ pokemon, pokeURL, cardQuery }) {
+export default function PokemonCard({ pokemon, pokeURL, query }) {
 
   const getSecondAbility = (abilities) => {
     if (abilities && abilities.length >= 2){
@@ -122,7 +122,7 @@ const pokeCard =
     ))
 
     const defaultCards = () => {
-      if (cardQuery.length === 0){
+      if (query.length === 0){
         return pokeCard;
       }
     }
