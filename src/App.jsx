@@ -5,6 +5,7 @@ import Pagination from "./components/Pagination";
 import PokemonCard from "./components/PokemonCard"
 import Search from './components/Search'
 import Table from "./components/Table";
+import SpriteToggle from "./components/SpriteToggle";
 
 function App() {
 
@@ -925,9 +926,12 @@ function App() {
   // const [pokemonNames, setPokemonNames] = useState();
   const [query, setQuery] = useState('')
   const [cardQuery, setCardQuery] = useState([]);
+  const [gen, setGen] = useState('8');
+  const [pGen, setPGen] = useState('0')
+
   
   if (allPokemon.length <= 1280){
-  axios.get('https://pokeapi.co/api/v2/pokemon/?limit=151').then((res)=>{ // Change limit to 1300 for deploy
+  axios.get('https://pokeapi.co/api/v2/pokemon/?limit=1300').then((res)=>{ 
       setAllPokemon(res.data.results)
       const allPkPromise = res.data.results.map(p=>axios.get(p.url));
       Promise.all(allPkPromise).then((res)=>{
@@ -935,8 +939,9 @@ function App() {
         setAllPokemonDetails(allPkDetails)
       })
     }
-  )}
-  // console.log(allPokemonDetails)
+  )
+}
+
 
 
   useEffect(() => {
@@ -989,28 +994,6 @@ function App() {
 
 
 
-
-  // const pID = () => {
-  //   const urls = [];
-  //   for (let i = 1; i <= pokemonCount; i++) {
-  //     let url = 'https://pokeapi.co/api/v2/pokemon/' + i;
-  //     urls.push(url);
-  //   }
-  //   return urls;
-  // };
-  
-  // const pokemonList = () => {
-  //   const pokeUrls = pID();
-  //   Promise.all(pokeUrls.map(url => axios.get(url)))
-  //     .then(responses => {
-  //       const pokeNames = responses.map(response => response.data.name);
-  //       setPokemonNames(pokeNames)
-  //     })
-  //     .catch(error => {
-  //       console.log('Error fetching data:', error);
-  //     });
-  // };
-
   // if (loading) return "Loading...";
 
 
@@ -1061,14 +1044,14 @@ const search = (data) => {
 
 
 
-console.log(cardQuery)
+// console.log(query)
   return (
     <>
-      {/* {console.log(pokemon[0])} */}
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
+      <SpriteToggle gen={gen} setGen={setGen} pokemon={pokemon} setPGen={setPGen} pGen={pGen} />
       <Search pokemon={pokemon} setQuery={setQuery} setCardQuery={setCardQuery} query={query} getAbilities={getAbilities} />
-      <Table pokemonArray={pokemonArray} pokemon={pokemon} data={search(allPokemonDetails)} getAbilities={getAbilities} query={query} />
-      <PokemonCard pokemon={pokemon} pokeURL={pokeURL} getAbilities={getAbilities} query={query} />
+      <Table pokemonArray={pokemonArray} pokemon={pokemon} data={search(allPokemonDetails)} getAbilities={getAbilities} query={query} gen={gen} />
+      <PokemonCard pokemon={pokemon} pokeURL={pokeURL} getAbilities={getAbilities} query={query} gen={gen} pGen={pGen} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage}/>
     </>
   );

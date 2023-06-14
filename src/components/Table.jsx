@@ -1,6 +1,31 @@
 import React from "react";
 
-export default function Table({ pokemon, data, getAbilities, query }) {
+export default function Table({ pokemon, data, getAbilities, query, gen }) {
+
+  const getGenerations = (sprites, gen) => {
+    if (gen === '0') {
+      return sprites.versions['generation-i']['red-blue']['front_transparent']
+    } else if (gen === '1'){
+      return sprites.versions['generation-ii']['crystal']['front_transparent']
+    } else if (gen === '2'){
+      return sprites.versions['generation-iii']['emerald']['front_default']
+    } else if (gen === '3'){
+      return sprites.versions['generation-iv']['platinum']['front_default']
+    } else if (gen === '4'){
+      return sprites.versions['generation-v']['black-white']['front_default']
+    } else if (gen === '5'){
+      return sprites.versions['generation-v']['black-white']['animated']['front_default']
+    } else if (gen === '6'){
+      return sprites.versions['generation-vi']['omegaruby-alphasapphire']['front_default']
+    } else if (gen === '7'){
+      return sprites.versions['generation-vii']['ultra-sun-ultra-moon']['front_default']
+    } else if (gen === '8'){
+      return sprites.front_default
+    }
+  }
+
+
+
   const getSecondAbility = (abilities) => {
     if (abilities && abilities.length >= 2) {
       return abilities[1].ability.name;
@@ -12,23 +37,16 @@ export default function Table({ pokemon, data, getAbilities, query }) {
     return icon + ".png";
   };
 
-  const getSecondTypeIcon = (types) => {
-    if (types && types.length >= 2) {
-      return (
-        <img width="16" height="16" src={getTypeIcon(getSecondType(types))} />
-      );
-    }
-    return "";
-  };
+  // const getSecondTypeIcon = (types) => {
+  //   if (types && types.length >= 2) {
+  //     return (
+  //       <img width="16" height="16" src={getTypeIcon(getSecondType(types))} />
+  //     );
+  //   }
+  //   return "";
+  // };
 
-  const newGetSecondTypeIcon = (types) => {
-    if (types && types.length >= 2) {
-      let secondType = getSecondType(types);
-      let secondIcon = getTypeIcon(secondType);
-      return <img width="16" height="16" src={secondIcon} />;
-    }
-    return "";
-  };
+
   // #region Get Card Color
 
   const getCardColor = (type) => {
@@ -76,8 +94,17 @@ export default function Table({ pokemon, data, getAbilities, query }) {
   // #endregion
 
   const getSecondType = (types) => {
+    if (types && types.length >=2){
+      return '/pokemon-vite/' + types[1].type.name;
+    }
+    return '';
+  };
+
+  const newGetSecondTypeIcon = (types) => {
     if (types && types.length >= 2) {
-      return "/" + types[1].type.name;
+      let secondType = getSecondType(types);
+      let secondIcon = getTypeIcon(secondType);
+      return <img width="16" height="16" src={secondIcon} />;
     }
     return "";
   };
@@ -109,14 +136,14 @@ export default function Table({ pokemon, data, getAbilities, query }) {
               </div>
               <img
                 className="pokemon-pic"
-                src={p.sprites.front_default}
+                src={getGenerations(p.sprites, gen)}
                 style={{
                   backgroundImage: "url(" + p.types[0].type.name + "bg.png)",
                 }}
               />
               <div className="front-info">
                 <div className="pokemon-abilities">
-                  <label>Abilities</label>
+                  <h4 className="pokemon-ability-title">Abilities</h4>
                   <h5>
                     {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
                       p.abilities[0].ability.name.slice(1)}

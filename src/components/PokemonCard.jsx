@@ -1,6 +1,37 @@
 import React, { useEffect } from 'react'
 
-export default function PokemonCard({ pokemon, pokeURL, query }) {
+export default function PokemonCard({ pokemon, pokeURL, query, gen, pGen }) {
+
+  
+  // const getSprites = (num, poke) => {
+  //   const generations = [, , , , , , , ]
+    
+  //   return poke.generations[num]
+  // }
+
+  const getGenerations = (sprites, gen) => {
+    if (gen === '0') {
+      return sprites.versions['generation-i']['red-blue']['front_transparent']
+    } else if (gen === '1'){
+      return sprites.versions['generation-ii']['crystal']['front_transparent']
+    } else if (gen === '2'){
+      return sprites.versions['generation-iii']['emerald']['front_default']
+    } else if (gen === '3'){
+      return sprites.versions['generation-iv']['platinum']['front_default']
+    } else if (gen === '4'){
+      return sprites.versions['generation-v']['black-white']['front_default']
+    } else if (gen === '5'){
+      return sprites.versions['generation-v']['black-white']['animated']['front_default']
+    } else if (gen === '6'){
+      return sprites.versions['generation-vi']['omegaruby-alphasapphire']['front_default']
+    } else if (gen === '7'){
+      return sprites.versions['generation-vii']['ultra-sun-ultra-moon']['front_default']
+    } else if (gen === '8'){
+      return sprites.front_default
+    }
+  }
+  
+
 
   const getSecondAbility = (abilities) => {
     if (abilities && abilities.length >= 2){
@@ -97,33 +128,55 @@ export default function PokemonCard({ pokemon, pokeURL, query }) {
   }
 
   // #endregion
-
+// data.sprites.versions.generation-vii.ultra-sun-ultra-moon.front-default
+// data.sprites.versions.generation-vii.icons.front-default
+// data.sprites.versions.generation-vi.omegaruby-alphasapphire.front-default
+// data.sprites.versions.generation-vi.x-y.front-default
+// data.sprites.versions.generation-v.black-white.front-default
+// data.sprites.versions.generation-v.black-white.animated.front-default
 const pokeCard = 
-  (pokemon.map(p=>
-    (
-      <div className='pokemon-card' style={{backgroundColor: getCardColor(p.types[0].type.name)}}  key={p.name}>
-      <div className='name-and-type'>
-        <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
-        <div className='pokemon-type'>
+pokemon.map((p) => (
+  <div className='pokemon-card' style={{ backgroundColor: getCardColor(p.types[0].type.name) }} key={p.name}>
+    <div className='name-and-type'>
+      <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
+      <div className='pokemon-type'>
         <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
         {newGetSecondTypeIcon(p.types)}
-        </div>
-        </div>
-        <img className='pokemon-pic' src={p.sprites.front_default} style={{backgroundImage: 'url('+ p.types[0].type.name +'bg.png)'}}/>
-        <div className='front-info'>
-          <div className='pokemon-abilities'>
-        <label>Abilities</label>
-          <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
-          <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
-          </div>
-        </div>
       </div>
-    )
-    ))
+    </div>
+    
+    <div className='pokemon-pic-div'>
+      <div className='pokemon-pic-wrapper'>
+        <img className='pokemon-pic' src={getGenerations(p.sprites, gen)} style={{ backgroundImage: `url(${p.types[0].type.name}bg.png)` }} />
+      </div>
+    </div>
+
+    <div className='front-info'>
+      <div className='pokemon-abilities'>
+        <h4 className='pokemon-ability-title'>Abilities</h4>
+        <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
+        <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
+      </div>
+    </div>
+    {/* {console.log(p.sprites.versions['generation-v']['black-white']['animated']['front_default'])} */}
+    {/* {console.log(getGenerations(p.sprites.versions, gen))} */}
+
+  </div>
+  
+))
+
+
+
 
     const defaultCards = () => {
       if (query.length === 0){
+        // console.log(pokemon.map(p=>(p.sprites.versions
+        //   ['generation-vii']
+        //   ['ultra-sun-ultra-moon']
+          // ['front-gray']
+          // )))
         return pokeCard;
+
       }
     }
 
@@ -152,6 +205,7 @@ const pokeCard =
           )} */}
           {/* {console.log(pokeCard.map(a=>a.key))} */}
           {defaultCards()}
+          
         </>
   )
 }

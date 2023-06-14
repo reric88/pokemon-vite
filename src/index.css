@@ -12,7 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 a {
@@ -49,10 +49,10 @@ body {
 }
 
 .pokemon-card {
-  height: 150px;
-  width: 125px;
+  height: 210px;
+  width: 150px;
   background-color: #aaa;
-  margin: 10px;
+  margin: 5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -87,9 +87,23 @@ body {
   justify-content: center;
 }
 
+.pokemon-pic-div {
+  width: 130px;
+  height: 90px;
+  overflow: hidden;
+}
+
+.pokemon-pic-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+
+
 .pokemon-pic {
-  width: 100px;
-  height: 60px;
+  width: 130px;
+  height: 90px;
   overflow: hidden;
   background-size: 150%;
   border: 2px solid #fff8;
@@ -98,10 +112,21 @@ body {
   object-fit: contain;
 }
 
+.pokemon-pic {
+
+  /* object-fit: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+}
+
 .front-info {
   background-color: #fff5;
-  width: 100px;
-  height: 50px;
+  width: 130px;
+  height: 70px;
 }
 
 .pokemon-abilities {
@@ -113,9 +138,11 @@ body {
   margin-top: 5px;
 }
 
-label {
+.pokemon-ability-title {
   /* text-decoration: underline; */
   border-bottom: 1px solid white;
+  width:80%;
+  margin: 0 auto;
 }
 
 button {
@@ -130,30 +157,9 @@ button {
   justify-content: center;
 }
 
-table {
-  width: 720px;
+.sprite-toggle-div {
+  margin: 5px auto 15px;
 }
-
-
-tbody {
-  width: 100%;
-}
-
-tr {
-  width: 100%;
-}
-
-th {
-  background: red;
-}
-
-td {
-  background-color: green;
-  text-align: center;
-}
-
-
-
 
 
 
