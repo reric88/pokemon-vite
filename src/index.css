@@ -130,10 +130,27 @@ button {
   justify-content: center;
 }
 
+table {
+  width: 720px;
+}
 
 
+tbody {
+  width: 100%;
+}
 
+tr {
+  width: 100%;
+}
 
+th {
+  background: red;
+}
+
+td {
+  background-color: green;
+  text-align: center;
+}
 
 
 
