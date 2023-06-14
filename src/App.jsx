@@ -927,7 +927,7 @@ function App() {
   const [cardQuery, setCardQuery] = useState([]);
   
   if (allPokemon.length <= 1280){
-  axios.get('https://pokeapi.co/api/v2/pokemon/?limit=1300').then((res)=>{
+  axios.get('https://pokeapi.co/api/v2/pokemon/?limit=151').then((res)=>{ // Change limit to 1300 for deploy
       setAllPokemon(res.data.results)
       const allPkPromise = res.data.results.map(p=>axios.get(p.url));
       Promise.all(allPkPromise).then((res)=>{
