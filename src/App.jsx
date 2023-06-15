@@ -126,7 +126,6 @@ function App() {
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage} />
       <SpriteToggle setGen={setGen} setBG={setBG} />
       <Search setQuery={setQuery} />
-      {/* <Table data={search(allPokemonDetails)} query={query} gen={gen} /> */}
       <PokemonCard pokemon={pokemon} data={search(allPokemonDetails)} query={query} gen={gen} bg={bg} />
       <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage} />
     </>
