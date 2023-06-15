@@ -110,17 +110,7 @@ body {
   margin-top: 0;
   margin-bottom: auto;
   object-fit: contain;
-}
-
-.pokemon-pic {
-
-  /* object-fit: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+  cursor: pointer;
 }
 
 .front-info {
@@ -159,15 +149,47 @@ button {
 
 .sprite-toggle-div {
   margin: 5px auto 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
+#sprite-select {
+  width: 150px;
+  height: 32px;
+}
 
+.search-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
+#search-choice {
+  width: 60px;
+  height: 32px;
+}
 
+#search {
+  width: 150px;
+  margin-left: 10px;
+}
 
+#bg-select {
+  width: 150px;
+  height: 32px;
+}
 
+#bg-label {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  
+}
 
+#sprites-label {
+  display: flex;
+  flex-direction: column;
 
-
-
+}
 

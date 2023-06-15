@@ -1,36 +1,26 @@
 import React, { useState } from 'react'
 
-export default function SpriteToggle({ setGen, setPGen, gen, pGen, pokemon }) {
+export default function SpriteToggle({ setGen, setBG }) {
         let choice = document.getElementById('sprite-select')
         let options = document.querySelectorAll('option')
 
-// const changeSprite = () => {
-//     let choice = document.getElementById('#sprite-select')
-//     let options = document.querySelectorAll('option')
-//     for (i=0; i<options.length; i++){
-//         if (options[i].contains())
-//     }
-// }
+
 
 const changeSprite = (e) => {
     setGen(e.target.value)
-    // setPGen(genValue(gen))
 }
 
-// const genValue = (num) => {
+const changeBG = (e) => {
+    setBG(e.target.value)
+}
 
-//     let generations = []
 
-//     pokemon.map(p=>(
-//     generations = [p.sprites.versions['generation-i']['red-blue']['front_default'], p.sprites.versions['generation-ii']['crystal']['front_default'], p.sprites.versions['generation-iii']['emerald']['front_default'], p.sprites.versions['generation-iv']['platinum']['front_default'], p.sprites.versions['generation-v']['black-white']['front_default'], p.sprites.versions['generation-v']['black-white']['animated']['front_default'], p.sprites.versions['generation-vi']['omegaruby-alphasapphire']['front_default'], p.sprites.versions['generation-vii']['ultra-sun-ultra-moon']['front_default']]
-//     ))
-//         return generations[num]
-//   }
+
 
   return (
     <>
         <div className='sprite-toggle-div'>
-            <label htmlFor="sprite-select">
+            <label id='sprites-label' htmlFor="sprite-select"><span>Sprites</span>
                 <select name="sprite-select" id="sprite-select" onChange={changeSprite} defaultValue='8'>
                     <option value="0">Gen 1: Red, Blue, Yellow</option>
                     <option value="1">Gen 2: Crystal, Gold, Silver</option>
@@ -43,8 +33,15 @@ const changeSprite = (e) => {
                     <option value="8">Default Sprites</option>
                 </select>
             </label>
+            <label id='bg-label' htmlFor="bg-toggle"><span>Background Type</span>
+                <select name="bg-select" id="bg-select" defaultValue='environment' onChange={changeBG}>
+                    <option value="environment">Environment</option>
+                    <option value="color">Color</option>
+                    <option value="black">Dark</option>
+                    <option value="white">Light</option>
+                </select>
+            </label>
         </div>
-        {/* {console.log(gen)} */}
         
     </>
   )

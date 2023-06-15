@@ -1,30 +1,31 @@
-import React from "react";
-
-export default function Table({ pokemon, data, getAbilities, query, gen }) {
-
+export default function Table({ data, query, gen }) {
   const getGenerations = (sprites, gen) => {
-    if (gen === '0') {
-      return sprites.versions['generation-i']['red-blue']['front_transparent']
-    } else if (gen === '1'){
-      return sprites.versions['generation-ii']['crystal']['front_transparent']
-    } else if (gen === '2'){
-      return sprites.versions['generation-iii']['emerald']['front_default']
-    } else if (gen === '3'){
-      return sprites.versions['generation-iv']['platinum']['front_default']
-    } else if (gen === '4'){
-      return sprites.versions['generation-v']['black-white']['front_default']
-    } else if (gen === '5'){
-      return sprites.versions['generation-v']['black-white']['animated']['front_default']
-    } else if (gen === '6'){
-      return sprites.versions['generation-vi']['omegaruby-alphasapphire']['front_default']
-    } else if (gen === '7'){
-      return sprites.versions['generation-vii']['ultra-sun-ultra-moon']['front_default']
-    } else if (gen === '8'){
-      return sprites.front_default
+    if (gen === "0") {
+      return sprites.versions["generation-i"]["red-blue"]["front_transparent"];
+    } else if (gen === "1") {
+      return sprites.versions["generation-ii"]["crystal"]["front_transparent"];
+    } else if (gen === "2") {
+      return sprites.versions["generation-iii"]["emerald"]["front_default"];
+    } else if (gen === "3") {
+      return sprites.versions["generation-iv"]["platinum"]["front_default"];
+    } else if (gen === "4") {
+      return sprites.versions["generation-v"]["black-white"]["front_default"];
+    } else if (gen === "5") {
+      return sprites.versions["generation-v"]["black-white"]["animated"][
+        "front_default"
+      ];
+    } else if (gen === "6") {
+      return sprites.versions["generation-vi"]["omegaruby-alphasapphire"][
+        "front_default"
+      ];
+    } else if (gen === "7") {
+      return sprites.versions["generation-vii"]["ultra-sun-ultra-moon"][
+        "front_default"
+      ];
+    } else if (gen === "8") {
+      return sprites.front_default;
     }
-  }
-
-
+  };
 
   const getSecondAbility = (abilities) => {
     if (abilities && abilities.length >= 2) {
@@ -36,16 +37,6 @@ export default function Table({ pokemon, data, getAbilities, query, gen }) {
   const getTypeIcon = (icon) => {
     return icon + ".png";
   };
-
-  // const getSecondTypeIcon = (types) => {
-  //   if (types && types.length >= 2) {
-  //     return (
-  //       <img width="16" height="16" src={getTypeIcon(getSecondType(types))} />
-  //     );
-  //   }
-  //   return "";
-  // };
-
 
   // #region Get Card Color
 
@@ -94,10 +85,10 @@ export default function Table({ pokemon, data, getAbilities, query, gen }) {
   // #endregion
 
   const getSecondType = (types) => {
-    if (types && types.length >=2){
-      return '/pokemon-vite/' + types[1].type.name;
+    if (types && types.length >= 2) {
+      return "/pokemon-vite/" + types[1].type.name;
     }
-    return '';
+    return "";
   };
 
   const newGetSecondTypeIcon = (types) => {
@@ -111,7 +102,7 @@ export default function Table({ pokemon, data, getAbilities, query, gen }) {
 
   const showQuery = () => {
     if (query.length === 0) {
-      return (<></>);
+      return <></>;
     } else {
       return (
         <>
@@ -161,8 +152,5 @@ export default function Table({ pokemon, data, getAbilities, query, gen }) {
     }
   };
 
-  return (<>
-    {showQuery()}
-    </>
-  );
+  return <>{showQuery()}</>;
 }

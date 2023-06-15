@@ -1,211 +1,226 @@
-import React, { useEffect } from 'react'
-
-export default function PokemonCard({ pokemon, pokeURL, query, gen, pGen }) {
-
-  
-  // const getSprites = (num, poke) => {
-  //   const generations = [, , , , , , , ]
-    
-  //   return poke.generations[num]
-  // }
+export default function PokemonCard({ pokemon, data, query, gen, bg }) {
+  const playCry = (pokemonID) => {
+    const player = document.getElementById("audio-player");
+    const cry = "PokemonCries/" + pokemonID + ".ogg";
+    player.src = cry;
+    player.play();
+  };
 
   const getGenerations = (sprites, gen) => {
-    if (gen === '0') {
-      return sprites.versions['generation-i']['red-blue']['front_transparent']
-    } else if (gen === '1'){
-      return sprites.versions['generation-ii']['crystal']['front_transparent']
-    } else if (gen === '2'){
-      return sprites.versions['generation-iii']['emerald']['front_default']
-    } else if (gen === '3'){
-      return sprites.versions['generation-iv']['platinum']['front_default']
-    } else if (gen === '4'){
-      return sprites.versions['generation-v']['black-white']['front_default']
-    } else if (gen === '5'){
-      return sprites.versions['generation-v']['black-white']['animated']['front_default']
-    } else if (gen === '6'){
-      return sprites.versions['generation-vi']['omegaruby-alphasapphire']['front_default']
-    } else if (gen === '7'){
-      return sprites.versions['generation-vii']['ultra-sun-ultra-moon']['front_default']
-    } else if (gen === '8'){
-      return sprites.front_default
+    if (gen === "0") {
+      return sprites.versions["generation-i"]["red-blue"]["front_transparent"];
+    } else if (gen === "1") {
+      return sprites.versions["generation-ii"]["crystal"]["front_transparent"];
+    } else if (gen === "2") {
+      return sprites.versions["generation-iii"]["emerald"]["front_default"];
+    } else if (gen === "3") {
+      return sprites.versions["generation-iv"]["platinum"]["front_default"];
+    } else if (gen === "4") {
+      return sprites.versions["generation-v"]["black-white"]["front_default"];
+    } else if (gen === "5") {
+      return sprites.versions["generation-v"]["black-white"]["animated"][
+        "front_default"
+      ];
+    } else if (gen === "6") {
+      return sprites.versions["generation-vi"]["omegaruby-alphasapphire"][
+        "front_default"
+      ];
+    } else if (gen === "7") {
+      return sprites.versions["generation-vii"]["ultra-sun-ultra-moon"][
+        "front_default"
+      ];
+    } else if (gen === "8") {
+      return sprites.front_default;
     }
-  }
-  
+  };
 
+  const changeBG = (v, art) => {
+    console.log(bg);
+    if (v === "environment") {
+      return { backgroundImage: `url(${art}bg.png)` };
+    } else if (v === "color") {
+      return { backgroundImage: "linear-gradient(#fffa, #1113" };
+    } else if (v === "black") {
+      return { backgroundColor: "#111" };
+    } else if (v === "white") {
+      return { backgroundColor: "#eee" };
+    }
+  };
 
   const getSecondAbility = (abilities) => {
-    if (abilities && abilities.length >= 2){
-      return abilities[1].ability.name
+    if (abilities && abilities.length >= 2) {
+      return abilities[1].ability.name;
     }
-    return  '';
-  }
+    return "";
+  };
 
   const getSecondType = (types) => {
-    if (types && types.length >=2){
-      return '/pokemon-vite/' + types[1].type.name;
+    if (types && types.length >= 2) {
+      return "/pokemon-vite/" + types[1].type.name;
     }
-    return '';
+    return "";
   };
 
   const getTypeIcon = (icon) => {
-    return icon +'.png'
-  }
-
-  const getSecondTypeIcon = (types) => {
-    if (types && types.length >=2){
-      return <img width='16' height='16' src={getTypeIcon(getSecondType(types))} />
-    }
-    return '';
-  }
+    return icon + ".png";
+  };
 
   const newGetSecondTypeIcon = (types) => {
-    if (types && types.length >=2){
-      let secondType = getSecondType(types)
-      let secondIcon = getTypeIcon(secondType)
-      return <img width='16' height='16' src={secondIcon} />
+    if (types && types.length >= 2) {
+      let secondType = getSecondType(types);
+      let secondIcon = getTypeIcon(secondType);
+      return <img width="16" height="16" src={secondIcon} />;
     }
-    return '';
-  }
-// #region Get Card Color
+    return "";
+  };
+
+  // #region Get Card Color
 
   const getCardColor = (type) => {
-    if (type === 'bug') {
-      return '#90C12C'
-    } 
-    else if (type === 'dark'){
-      return '#5A5366'
-    } 
-    else if (type === 'dragon'){
-      return '#096DC4'
-    } 
-    else if (type === 'electric'){
-      return '#F3D23B'
-    } 
-    else if (type === 'fairy'){
-      return '#EC8FE6'
-    } 
-    else if (type === 'fighting'){
-      return '#CE4069'
-    } 
-    else if (type === 'fire'){
-      return '#FF9C54'
-    } 
-    else if (type === 'flying'){
-      return '#92AADE'
-    } 
-    else if (type === 'ghost'){
-      return '#5269AC'
-    } 
-    else if (type === 'grass'){
-      return '#63BB5B'
-    } 
-    else if (type === 'ground'){
-      return '#D97746'
-    } 
-    else if (type === 'ice'){
-      return '#74CEC0'
-    } 
-    else if (type === 'normal'){
-      return '#9099A1'
-    } 
-    else if (type === 'poison'){
-      return '#AB6AC8'
-    } 
-    else if (type === 'psychic'){
-      return '#F97176'
-    } 
-    else if (type === 'rock'){
-      return '#C7B78B'
-    } 
-    else if (type === 'steel'){
-      return '#5A8EA1'
-    } 
-    else if (type === 'water'){
-      return '#4D90D5'
+    if (type === "bug") {
+      return "#90C12C";
+    } else if (type === "dark") {
+      return "#5A5366";
+    } else if (type === "dragon") {
+      return "#096DC4";
+    } else if (type === "electric") {
+      return "#F3D23B";
+    } else if (type === "fairy") {
+      return "#EC8FE6";
+    } else if (type === "fighting") {
+      return "#CE4069";
+    } else if (type === "fire") {
+      return "#FF9C54";
+    } else if (type === "flying") {
+      return "#92AADE";
+    } else if (type === "ghost") {
+      return "#5269AC";
+    } else if (type === "grass") {
+      return "#63BB5B";
+    } else if (type === "ground") {
+      return "#D97746";
+    } else if (type === "ice") {
+      return "#74CEC0";
+    } else if (type === "normal") {
+      return "#9099A1";
+    } else if (type === "poison") {
+      return "#AB6AC8";
+    } else if (type === "psychic") {
+      return "#F97176";
+    } else if (type === "rock") {
+      return "#C7B78B";
+    } else if (type === "steel") {
+      return "#5A8EA1";
+    } else if (type === "water") {
+      return "#4D90D5";
     } else {
-      return '#888'
-   }
-  }
+      return "#888";
+    }
+  };
 
   // #endregion
-// data.sprites.versions.generation-vii.ultra-sun-ultra-moon.front-default
-// data.sprites.versions.generation-vii.icons.front-default
-// data.sprites.versions.generation-vi.omegaruby-alphasapphire.front-default
-// data.sprites.versions.generation-vi.x-y.front-default
-// data.sprites.versions.generation-v.black-white.front-default
-// data.sprites.versions.generation-v.black-white.animated.front-default
-const pokeCard = 
-pokemon.map((p) => (
-  <div className='pokemon-card' style={{ backgroundColor: getCardColor(p.types[0].type.name) }} key={p.name}>
-    <div className='name-and-type'>
-      <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
-      <div className='pokemon-type'>
-        <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
-        {newGetSecondTypeIcon(p.types)}
+
+  // #region Paginated Pokemon
+
+  const pokeCard = pokemon.map((p) => (
+    <div
+      className="pokemon-card"
+      style={{ backgroundColor: getCardColor(p.types[0].type.name) }}
+      key={p.name}
+    >
+      <div className="name-and-type">
+        <h4 className="pokemon-name">
+          {p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}
+        </h4>
+        <div className="pokemon-type">
+          <img width="16" height="16" src={getTypeIcon(p.types[0].type.name)} />
+          {newGetSecondTypeIcon(p.types)}
+        </div>
+      </div>
+
+      <div className="pokemon-pic-div">
+        <div className="pokemon-pic-wrapper">
+          <img
+            className="pokemon-pic"
+            src={getGenerations(p.sprites, gen)}
+            style={changeBG(bg, p.types[0].type.name)}
+            onClick={() => playCry(p.id)}
+          />
+        </div>
+      </div>
+
+      <div className="front-info">
+        <div className="pokemon-abilities">
+          <h4 className="pokemon-ability-title">Abilities</h4>
+          <h5>
+            {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
+              p.abilities[0].ability.name.slice(1)}
+          </h5>
+          <h5>
+            {getSecondAbility(p.abilities).toUpperCase().slice(0, 1) +
+              getSecondAbility(p.abilities).slice(1)}
+          </h5>
+        </div>
       </div>
     </div>
-    
-    <div className='pokemon-pic-div'>
-      <div className='pokemon-pic-wrapper'>
-        <img className='pokemon-pic' src={getGenerations(p.sprites, gen)} style={{ backgroundImage: `url(${p.types[0].type.name}bg.png)` }} />
+  ));
+
+  // #endregion
+
+  // #region Queried Pokemon
+
+  const queryCard = data.map((p) => (
+    <div
+      className="pokemon-card"
+      style={{ backgroundColor: getCardColor(p.types[0].type.name) }}
+      key={p.name}
+    >
+      <div className="name-and-type">
+        <h4 className="pokemon-name">
+          {p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}
+        </h4>
+        <div className="pokemon-type">
+          <img width="16" height="16" src={getTypeIcon(p.types[0].type.name)} />
+          {newGetSecondTypeIcon(p.types)}
+        </div>
+      </div>
+
+      <div className="pokemon-pic-div">
+        <div className="pokemon-pic-wrapper">
+          <img
+            className="pokemon-pic"
+            src={getGenerations(p.sprites, gen)}
+            style={changeBG(bg, p.types[0].type.name)}
+            onClick={() => playCry(p.id)}
+          />
+        </div>
+      </div>
+
+      <div className="front-info">
+        <div className="pokemon-abilities">
+          <h4 className="pokemon-ability-title">Abilities</h4>
+          <h5>
+            {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
+              p.abilities[0].ability.name.slice(1)}
+          </h5>
+          <h5>
+            {getSecondAbility(p.abilities).toUpperCase().slice(0, 1) +
+              getSecondAbility(p.abilities).slice(1)}
+          </h5>
+        </div>
       </div>
     </div>
+  ));
 
-    <div className='front-info'>
-      <div className='pokemon-abilities'>
-        <h4 className='pokemon-ability-title'>Abilities</h4>
-        <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
-        <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
-      </div>
-    </div>
-    {/* {console.log(p.sprites.versions['generation-v']['black-white']['animated']['front_default'])} */}
-    {/* {console.log(getGenerations(p.sprites.versions, gen))} */}
+  // #endregion
 
-  </div>
-  
-))
-
-
-
-
-    const defaultCards = () => {
-      if (query.length === 0){
-        // console.log(pokemon.map(p=>(p.sprites.versions
-        //   ['generation-vii']
-        //   ['ultra-sun-ultra-moon']
-          // ['front-gray']
-          // )))
-        return pokeCard;
-
-      }
+  const defaultCards = () => {
+    if (query.length === 0) {
+      return pokeCard;
+    } else if (query.length > 0) {
+      return queryCard;
     }
+  };
 
-  
-  return (<>
-          {/* {pokemon.map(p=>
-          (
-            <div className='pokemon-card' style={{backgroundColor: getCardColor(p.types[0].type.name)}}  key={p.name}>
-            <div className='name-and-type'>
-              <h4 className='pokemon-name'>{p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}</h4>
-              <div className='pokemon-type'>
-              <img width='16' height='16' src={getTypeIcon(p.types[0].type.name)} />
-              {newGetSecondTypeIcon(p.types)}
-              </div>
-              </div>
-              <img className='pokemon-pic' src={p.sprites.front_default} style={{backgroundImage: 'url('+ p.types[0].type.name +'bg.png)'}}/>
-              <div className='front-info'>
-                <div className='pokemon-abilities'>
-              <label>Abilities</label>
-                <h5>{p.abilities[0].ability.name.toUpperCase().slice(0, 1) + p.abilities[0].ability.name.slice(1)}</h5>
-                <h5>{getSecondAbility(p.abilities).toUpperCase().slice(0, 1) + getSecondAbility(p.abilities).slice(1)}</h5>
-                </div>
-              </div>
-            </div>
-          )
-          )} */}
-          {/* {console.log(pokeCard.map(a=>a.key))} */}
-          {defaultCards()}
-          
-        </>
-  )
+  return <>{defaultCards()}</>;
 }
