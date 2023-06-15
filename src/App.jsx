@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     if (allPokemon.length <= 1280) {
-      axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151").then((res) => {
+      axios.get("https://pokeapi.co/api/v2/pokemon/?limit=1300").then((res) => {
         setAllPokemon(res.data.results);
         const allPkPromise = res.data.results.map((p) => axios.get(p.url));
         Promise.all(allPkPromise).then((res) => {
