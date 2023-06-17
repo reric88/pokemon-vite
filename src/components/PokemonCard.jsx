@@ -35,7 +35,6 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
   };
 
   const changeBG = (v, art) => {
-    console.log(bg);
     if (v === "environment") {
       return { backgroundImage: `url(CardBG/${art}bg.png)` };
     } else if (v === "color") {
@@ -73,6 +72,25 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
     }
     return "";
   };
+
+const frontInfoOptions = () => {
+  const frontInfo = document.querySelectorAll('.front-info')
+  frontInfo.forEach(cardInfo => {
+    cardInfo.addEventListener('click', () => {
+      cardInfo.firstChild.classList.add('hidden')
+      cardInfo.lastChild.classList.remove('hidden')
+    cardInfo.addEventListener('mouseleave', ()=>{
+
+      cardInfo.firstChild.classList.remove('hidden')
+      cardInfo.lastChild.classList.add('hidden')
+    })
+    });
+    // cardInfo.addEventListener('mouseleave', () => {
+    //   cardInfo.firstChild.classList.remove('hidden')
+    //   cardInfo.lastChild.classList.add('hidden')
+    // })
+  })
+}
 
   // #region Get Card Color
 
@@ -149,17 +167,58 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
         </div>
       </div>
 
-      <div className="front-info">
+      <div className="front-info" onMouseEnter={frontInfoOptions}>
         <div className="pokemon-abilities">
-          <h4 className="pokemon-ability-title">Abilities</h4>
-          <h5>
+          <h4 className="pokemon-ability-title">Base Stats</h4>
+          {/* <h5>{p.effect_entries.short_effect}</h5> */}
+          {/* <h5>{console.log(p)}</h5> */}
+          {/* <h6>{p.stats.map(s=>(s.stat.name + '/' + s.base_stat))}</h6> */}
+          <div className="stat-tables">
+          <table>
+          <tbody>
+            <tr>
+              <td>HP</td>
+              <td>{p.stats[0].base_stat}</td>
+            </tr>
+            <tr>
+              <td>ATK</td>
+              <td>{p.stats[1].base_stat}</td>
+            </tr>
+            <tr>
+              <td>S.ATK</td>
+              <td>{p.stats[3].base_stat}</td>
+            </tr>
+            </tbody>
+          </table>
+          <table>
+          <tbody>
+            <tr>
+              <td>SPD</td>
+              <td>{p.stats[5].base_stat}</td>
+            </tr>
+            <tr>
+              <td>DEF</td>
+              <td>{p.stats[2].base_stat}</td>
+            </tr>
+            <tr>
+              <td>S.DEF</td>
+              <td>{p.stats[4].base_stat}</td>
+            </tr>
+            </tbody>
+          </table>
+          </div>
+          {/* <h5>
             {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
               p.abilities[0].ability.name.slice(1)}
           </h5>
           <h5>
             {getSecondAbility(p.abilities).toUpperCase().slice(0, 1) +
               getSecondAbility(p.abilities).slice(1)}
-          </h5>
+          </h5> */}
+        </div>
+        <div className="flip-compare-container hidden" id="flip-compare">
+          <div className="flip flip-compare"><i className="fa-solid fa-up-right-and-down-left-from-center"></i><h3>Expand</h3></div>
+          <div className="compare flip-compare"><div><i className="fa-solid fa-arrow-right-from-bracket"></i><i className="fa-solid fa-arrow-right-from-bracket fc-right"></i></div><h3>Compare</h3></div>
         </div>
       </div>
     </div>
@@ -221,6 +280,8 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
       return queryCard;
     }
   };
+
+  // frontInfoOptions()
 
   return <>{defaultCards()}</>;
 }

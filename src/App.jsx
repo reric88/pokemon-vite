@@ -142,12 +142,11 @@ function App() {
     }
     };
 
-  console.log("log");
   return (
     <>
     <ExpandHelp />
       <OGGPlayer />
-      <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage} />
+      {/* <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage} /> */}
       <SpriteToggle setGen={setGen} setBG={setBG} />
       <Search setQuery={setQuery} setSearchMethod={setSearchMethod} searchMethod={searchMethod} />
       <PokemonCard
