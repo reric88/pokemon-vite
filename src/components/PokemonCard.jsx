@@ -55,13 +55,13 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
 
   const getSecondType = (types) => {
     if (types && types.length >= 2) {
-      return "/CardType/" + types[1].type.name;
+      return "/pokemon-vite/CardType/" + types[1].type.name;
     }
     return "";
   };
 
   const getTypeIcon = (icon) => {
-    return '/CardType/'+icon+'.png';
+    return '/pokemon-vite/CardType/'+icon+'.png';
   };
 
   const newGetSecondTypeIcon = (types) => {
