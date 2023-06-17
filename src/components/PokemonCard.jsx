@@ -37,7 +37,7 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
   const changeBG = (v, art) => {
     console.log(bg);
     if (v === "environment") {
-      return { backgroundImage: `url(${art}bg.png)` };
+      return { backgroundImage: `url(CardBG/${art}bg.png)` };
     } else if (v === "color") {
       return { backgroundImage: "linear-gradient(#fffa, #1113" };
     } else if (v === "black") {
@@ -56,19 +56,19 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
 
   const getSecondType = (types) => {
     if (types && types.length >= 2) {
-      return "/pokemon-vite/" + types[1].type.name;
+      return "/CardType/" + types[1].type.name;
     }
     return "";
   };
 
   const getTypeIcon = (icon) => {
-    return icon + ".png";
+    return '/CardType/'+icon+'.png';
   };
 
   const newGetSecondTypeIcon = (types) => {
     if (types && types.length >= 2) {
       let secondType = getSecondType(types);
-      let secondIcon = getTypeIcon(secondType);
+      let secondIcon = getTypeIcon(types[1].type.name);
       return <img width="16" height="16" src={secondIcon} />;
     }
     return "";
