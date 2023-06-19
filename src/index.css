@@ -215,7 +215,7 @@ body {
 .expand-card {
   transform: scale(3);
   z-index: 98;
-  position: absolute;
+  position: fixed;
   /* margin-bottom: auto;
   margin-right: auto; */
 }

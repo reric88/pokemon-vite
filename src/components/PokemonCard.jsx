@@ -47,7 +47,11 @@ const expandCard = () => {
           expand.classList.remove('expand-card');
         }
       });
+      const yaxis = window.innerHeight / 2 - getCard.offsetHeight / 2
+      const xaxis = window.innerWidth / 2 - getCard.offsetWidth / 2
       getCard.classList.toggle('expand-card');
+      getCard.style.top = yaxis + 'px'
+      getCard.style.left = xaxis + 'px'
 
       // I can't figure out why the function is firing multiple times on a single click, so I am removing the event listener as a quick fix...
       item.removeEventListener('click', handleClick);
