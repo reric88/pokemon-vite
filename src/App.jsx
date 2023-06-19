@@ -25,23 +25,49 @@ function App() {
   const [genderF, setGenderF] = useState([]);
   const [genderM, setGenderM] = useState([]);
   const [genderless, setGenderless] = useState([]);
-  const [genders, setGenders] = useState([])
-  const [graphs, setGraphs] = useState([]);
-  const [pkAbility, setPKAbility] = useState([])
-  const [compare, setCompare] = useState(false)
+  const [returned, setReturned] = useState(20)
+
+  // useEffect(() => {
+  //   if (allPokemon.length <= 1280) {
+  //     axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151").then((res) => {
+  //       setAllPokemon(res.data.results);
+  //       const allPkPromise = res.data.results.map((p) => axios.get(p.url));
+  //       Promise.all(allPkPromise).then((res) => {
+  //         const allPkDetails = res.map((p) => p.data);
+  //         setAllPokemonDetails(allPkDetails);
+  //       });
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (allPokemon.length <= 1280) {
-      axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151").then((res) => {
-        setAllPokemon(res.data.results);
-        const allPkPromise = res.data.results.map((p) => axios.get(p.url));
-        Promise.all(allPkPromise).then((res) => {
-          const allPkDetails = res.map((p) => p.data);
-          setAllPokemonDetails(allPkDetails);
-        });
-      });
+    const fetchPokemonData = async () => {
+      try {
+        const limit = 1300; // Number of Pokémon per batch
+        let offset = 0
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}`);
+        const { results } = response.data;
+  
+        // Fetch Pokémon details in batches
+        const allPkDetails = [];
+        for (let i = 0; i < results.length; i++) {
+          const pokemonUrl = results[i].url;
+          const pkResponse = await axios.get(pokemonUrl);
+          allPkDetails.push(pkResponse.data);
+        }
+  
+        setAllPokemon(results);
+        setAllPokemonDetails(allPkDetails);
+      } catch (error) {
+        console.error('Error fetching Pokémon data:', error);
+      }
+    };
+  
+    if (allPokemon.length === 0) {
+      fetchPokemonData();
     }
   }, []);
+
 
 // useEffect(()=>{
 //   axios.get('https://pokeapi.co/api/v2/').then((res)=>{
@@ -79,7 +105,6 @@ function App() {
         axios.get(genderless.url).then((res)=>{
           setGenderless(res.data.pokemon_species_details.map(g=>g.pokemon_species.name))
         })
-        setGenders(genderF, genderM, genderless)
       })
         })
 
@@ -227,7 +252,7 @@ function App() {
     <ExpandHelp />
       <OGGPlayer />
       {/* <Pagination goToNextPage={goToNextPage} goToPrevPage={goToPrevPage} /> */}
-      <SpriteToggle setGen={setGen} setBG={setBG} />
+      <SpriteToggle setGen={setGen} setBG={setBG} setReturned={setReturned} returned={returned} />
       <Search setQuery={setQuery} setSearchMethod={setSearchMethod} searchMethod={searchMethod} setScales={setScales} />
       <PokemonCard
         pokemon={pokemon}

@@ -16,6 +16,10 @@
   justify-content: space-evenly;
 }
 
+input {
+  height: 32px;
+}
+
 a {
   color: white;
 }
@@ -361,6 +365,17 @@ button {
   display: flex;
   flex-direction: column;
   
+}
+
+#pk-count-label {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+#pk-count {
+  width: 120px;
 }
 
 #sprites-label {

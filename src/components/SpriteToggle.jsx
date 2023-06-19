@@ -4,8 +4,6 @@ export default function SpriteToggle({ setGen, setBG }) {
         let choice = document.getElementById('sprite-select')
         let options = document.querySelectorAll('option')
 
-
-
 const changeSprite = (e) => {
     setGen(e.target.value)
 }

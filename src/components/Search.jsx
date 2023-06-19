@@ -3,6 +3,16 @@ import ExpandHelp from "./ExpandHelp";
 
 export default function Search({ setQuery, setSearchMethod, searchMethod, setScales }) {
 
+
+  
+  const getSearch = (e) => {
+    const searchbar = document.getElementById('search')
+      if (e.key === 'Enter'){
+        setQuery(searchbar.value.toLowerCase())
+      }
+  }
+
+
 const changeMethod = (e) => {
   setSearchMethod(e.target.value)
 }
@@ -35,7 +45,8 @@ const expandHelp = () => {
           type="text"
           placeholder="Search by..."
           className="search"
-          onChange={(e) => setQuery(e.target.value.toLowerCase())}
+          // onChange={(e) => setQuery(e.target.value.toLowerCase())}
+          onKeyDown={getSearch}
         />
         <label htmlFor="search-choice" className="search-choice-label">
           <select name="search-choice" id="search-choice" onChange={(e)=>changeMethod(e)} defaultValue='all'>
@@ -51,8 +62,6 @@ const expandHelp = () => {
         <option value="imperial">Imperial</option>
         <option value="metric">Metric</option>
       </select>
-          {/* <input type="radio" id='choose-imp' className='choose-scale' name="choose-scale" checked onChange={() => setScales('imperial')} /><h5>Imperial</h5>
-          <input type="radio" id='choose-met' className='choose-scale' name="choose-scale" onChange={() => setScales('metric')} /><h5>Metric</h5> */}
       </div>
       </div>
     </>
