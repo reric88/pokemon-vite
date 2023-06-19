@@ -1,10 +1,14 @@
 import React from "react";
 import ExpandHelp from "./ExpandHelp";
 
-export default function Search({ setQuery, setSearchMethod, searchMethod }) {
+export default function Search({ setQuery, setSearchMethod, searchMethod, setScales }) {
 
 const changeMethod = (e) => {
   setSearchMethod(e.target.value)
+}
+
+const changeScales = (e) => {
+  setScales(e.target.value)
 }
 
 const queryMethod =  (e) => {
@@ -42,6 +46,14 @@ const expandHelp = () => {
             <option value="ability">Ability</option>
           </select>
         </label>
+      <div className='scale-container'>
+      <select name="set-scales" id="set-scales" onChange={(e)=>changeScales(e)} defaultValue={'imperial'}>
+        <option value="imperial">Imperial</option>
+        <option value="metric">Metric</option>
+      </select>
+          {/* <input type="radio" id='choose-imp' className='choose-scale' name="choose-scale" checked onChange={() => setScales('imperial')} /><h5>Imperial</h5>
+          <input type="radio" id='choose-met' className='choose-scale' name="choose-scale" onChange={() => setScales('metric')} /><h5>Metric</h5> */}
+      </div>
       </div>
     </>
   );

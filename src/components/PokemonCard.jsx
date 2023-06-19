@@ -1,4 +1,93 @@
-export default function PokemonCard({ pokemon, data, query, gen, bg }) {
+import Chart from "chart.js/auto";
+import axios from "axios";
+import Graphs from "./Graphs";
+
+export default function PokemonCard({
+  pokemon,
+  data,
+  query,
+  gen,
+  bg,
+  scales,
+  genderM,
+  genderF,
+  genderless,
+}) {
+
+// const expandCard = () => {
+//   const getExpand = document.querySelectorAll('.flip');
+//   getExpand.forEach((item) => {
+//     item.addEventListener('click', (e) => {
+//       const getCard = e.currentTarget.closest('.pokemon-card');
+//       const getAllExpands = document.querySelectorAll('.expand-card')
+//       if (getCard.classList.contains('expand-card')) {
+//         // getCard.classList.remove('expand-card');
+//         getAllExpands.forEach(e=>{
+//           e.classList.remove('expand-card')
+//         })
+//         console.log('Shrink');
+//         return
+//       } else {
+//         getCard.classList.add('expand-card');
+//         console.log('Expand');
+//         return
+//       }
+//     });
+//   });
+// };
+
+const expandCard = () => {
+  const getExpand = document.querySelectorAll('.flip');
+  getExpand.forEach((item) => {
+    const handleClick = (e) => {
+      const getCard = e.target.closest('.pokemon-card');
+      const getAllExpands = document.querySelectorAll('.expand-card');
+      getAllExpands.forEach((expand) => {
+        if (expand !== getCard) {
+          expand.classList.remove('expand-card');
+        }
+      });
+      getCard.classList.toggle('expand-card');
+
+      // I can't figure out why the function is firing multiple times on a single click, so I am removing the event listener as a quick fix...
+      item.removeEventListener('click', handleClick);
+    };
+    item.addEventListener('click', handleClick);
+  });
+};
+
+  const setPokemonGender = (p) => {
+    if (genderF.includes(p.name) && genderM.includes(p.name)) {
+      return <i className="fa-solid fa-venus-mars"></i>;
+    } else if (genderF.includes(p.name)) {
+      return <i className="fa-solid fa-venus"></i>;
+    } else if (genderM.includes(p.name)) {
+      return <i className="fa-solid fa-mars"></i>;
+    } else return <i className="fa-solid fa-o"></i>;
+  };
+
+  const pokemonHeightImp = (p) => {
+    if (scales === "imperial") {
+      let feet = Math.floor(p.height / 3.281);
+      let inches = Math.round((p.height / 3.281 - feet) * 12);
+      return feet + `'-` + inches + '"';
+    } else return p.height / 10 + "m";
+  };
+
+  const pokemonWeightImp = (p) => {
+    if (scales === "imperial") {
+      let lbs = Math.floor((p.weight / 2 / 2.205) * 10) / 10;
+      let oz = Math.round((p.weight / 2.205 - lbs) * 16);
+      return lbs + "lb ";
+    } else {
+      return p.weight / 10 + "kg";
+    }
+  };
+
+  const pokemonBaseExp = (p) => {
+    return p.base_experience;
+  };
+
   const playCry = (pokemonID) => {
     const player = document.getElementById("audio-player");
     const cry = "PokemonCries/" + pokemonID + ".ogg";
@@ -46,13 +135,6 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
     }
   };
 
-  const getSecondAbility = (abilities) => {
-    if (abilities && abilities.length >= 2) {
-      return abilities[1].ability.name;
-    }
-    return "";
-  };
-
   const getSecondType = (types) => {
     if (types && types.length >= 2) {
       return "/pokemon-vite/CardType/" + types[1].type.name;
@@ -61,7 +143,7 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
   };
 
   const getTypeIcon = (icon) => {
-    return '/pokemon-vite/CardType/'+icon+'.png';
+    return "/pokemon-vite/CardType/" + icon + ".png";
   };
 
   const newGetSecondTypeIcon = (types) => {
@@ -73,24 +155,23 @@ export default function PokemonCard({ pokemon, data, query, gen, bg }) {
     return "";
   };
 
-const frontInfoOptions = () => {
-  const frontInfo = document.querySelectorAll('.front-info')
-  frontInfo.forEach(cardInfo => {
-    cardInfo.addEventListener('click', () => {
-      cardInfo.firstChild.classList.add('hidden')
-      cardInfo.lastChild.classList.remove('hidden')
-    cardInfo.addEventListener('mouseleave', ()=>{
-
-      cardInfo.firstChild.classList.remove('hidden')
-      cardInfo.lastChild.classList.add('hidden')
-    })
+  const frontInfoOptions = () => {
+    const frontInfo = document.querySelectorAll(".front-info");
+    frontInfo.forEach((cardInfo) => {
+      cardInfo.addEventListener("click", () => {
+        cardInfo.firstChild.classList.add("hidden");
+        cardInfo.lastChild.classList.remove("hidden");
+        cardInfo.addEventListener("mouseleave", () => {
+          cardInfo.firstChild.classList.remove("hidden");
+          cardInfo.lastChild.classList.add("hidden");
+        });
+      });
+      // cardInfo.addEventListener('mouseleave', () => {
+      //   cardInfo.firstChild.classList.remove('hidden')
+      //   cardInfo.lastChild.classList.add('hidden')
+      // })
     });
-    // cardInfo.addEventListener('mouseleave', () => {
-    //   cardInfo.firstChild.classList.remove('hidden')
-    //   cardInfo.lastChild.classList.add('hidden')
-    // })
-  })
-}
+  };
 
   // #region Get Card Color
 
@@ -140,11 +221,14 @@ const frontInfoOptions = () => {
 
   // #region Paginated Pokemon
 
-  const pokeCard = pokemon.map((p) => (
+  const pokeCard = (v) => {
+  
+   return v.map((p) => (
     <div
       className="pokemon-card"
       style={{ backgroundColor: getCardColor(p.types[0].type.name) }}
       key={p.name}
+      id={'card-' + p.name}
     >
       <div className="name-and-type">
         <h4 className="pokemon-name">
@@ -169,12 +253,32 @@ const frontInfoOptions = () => {
 
       <div className="front-info" onMouseEnter={frontInfoOptions}>
         <div className="pokemon-abilities">
-          <h4 className="pokemon-ability-title">Base Stats</h4>
+          <h4 className="pokemon-ability-title">Attributes</h4>
           {/* <h5>{p.effect_entries.short_effect}</h5> */}
           {/* <h5>{console.log(p)}</h5> */}
           {/* <h6>{p.stats.map(s=>(s.stat.name + '/' + s.base_stat))}</h6> */}
-          <div className="stat-tables">
-          <table>
+
+          <div className="stat-tables" id={"stat-tables-" + p.name}>
+            <div className="attribute-container">
+              <div className="attribute">
+                <h4>Height:</h4>
+                <h5>{pokemonHeightImp(p)}</h5>
+              </div>
+              <div className="attribute">
+                <h4>Weight:</h4>
+                <h5>{pokemonWeightImp(p)}</h5>
+              </div>
+              <div className="attribute">
+                <h4>Base XP:</h4>
+                <h5>{pokemonBaseExp(p)}</h5>
+              </div>
+              <div className="attribute">
+                <h4>Gender:</h4>
+                {setPokemonGender(p)}
+              </div>
+            </div>
+
+            {/* <table>
           <tbody>
             <tr>
               <td>HP</td>
@@ -205,7 +309,9 @@ const frontInfoOptions = () => {
               <td>{p.stats[4].base_stat}</td>
             </tr>
             </tbody>
-          </table>
+          </table> */}
+
+            {/* {console.log(p.stats[0].base_stat)} */}
           </div>
           {/* <h5>
             {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
@@ -217,67 +323,30 @@ const frontInfoOptions = () => {
           </h5> */}
         </div>
         <div className="flip-compare-container hidden" id="flip-compare">
-          <div className="flip flip-compare"><i className="fa-solid fa-up-right-and-down-left-from-center"></i><h3>Expand</h3></div>
-          <div className="compare flip-compare"><div><i className="fa-solid fa-arrow-right-from-bracket"></i><i className="fa-solid fa-arrow-right-from-bracket fc-right"></i></div><h3>Compare</h3></div>
+          <div className="flip flip-compare" onClick={expandCard} id={'flip-' + p.name}>
+            <i className="fa-solid fa-up-right-and-down-left-from-center"></i>
+            <h3>Expand</h3>
+          </div>
+          <div className="compare flip-compare">
+            <div>
+              <i className="fa-solid fa-arrow-right-from-bracket"></i>
+              <i className="fa-solid fa-arrow-right-from-bracket fc-right"></i>
+            </div>
+            <h3>Compare</h3>
+          </div>
         </div>
       </div>
     </div>
   ));
-
-  // #endregion
-
-  // #region Queried Pokemon
-
-  const queryCard = data.map((p) => (
-    <div
-      className="pokemon-card"
-      style={{ backgroundColor: getCardColor(p.types[0].type.name) }}
-      key={p.name}
-    >
-      <div className="name-and-type">
-        <h4 className="pokemon-name">
-          {p.name.toUpperCase().slice(0, 1) + p.name.slice(1)}
-        </h4>
-        <div className="pokemon-type">
-          <img width="16" height="16" src={getTypeIcon(p.types[0].type.name)} />
-          {newGetSecondTypeIcon(p.types)}
-        </div>
-      </div>
-
-      <div className="pokemon-pic-div">
-        <div className="pokemon-pic-wrapper">
-          <img
-            className="pokemon-pic"
-            src={getGenerations(p.sprites, gen)}
-            style={changeBG(bg, p.types[0].type.name)}
-            onClick={() => playCry(p.id)}
-          />
-        </div>
-      </div>
-
-      <div className="front-info">
-        <div className="pokemon-abilities">
-          <h4 className="pokemon-ability-title">Abilities</h4>
-          <h5>
-            {p.abilities[0].ability.name.toUpperCase().slice(0, 1) +
-              p.abilities[0].ability.name.slice(1)}
-          </h5>
-          <h5>
-            {getSecondAbility(p.abilities).toUpperCase().slice(0, 1) +
-              getSecondAbility(p.abilities).slice(1)}
-          </h5>
-        </div>
-      </div>
-    </div>
-  ));
+        }
 
   // #endregion
 
   const defaultCards = () => {
     if (query.length === 0) {
-      return pokeCard;
+      return pokeCard(pokemon);
     } else if (query.length > 0) {
-      return queryCard;
+      return pokeCard(data);
     }
   };
 
